@@ -4,6 +4,12 @@ from .models import Caminhao, Carregamento, Frente
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
+from django.contrib.admin.options import FORMFIELD_FOR_DBFIELD_DEFAULTS
+from webcam import widgets
+from webcam.fields import CameraField
+
+FORMFIELD_FOR_DBFIELD_DEFAULTS[CameraField] = {'widget': widgets.CameraWidget}
+
 
 class CarregamentoAdmin(ImportExportModelAdmin):
 	list_display = ["caminhao", "frente", "data", "duracao"]

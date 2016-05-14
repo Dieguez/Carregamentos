@@ -1,6 +1,9 @@
 from django.db import models
 import datetime
 from django.utils.encoding import python_2_unicode_compatible
+import webcam.admin
+from webcam.fields import CameraField
+
 
 
 # Create your models here.
@@ -51,7 +54,9 @@ class Carregamento(models.Model):
     frente = models.ForeignKey(Frente)
     data = models.DateTimeField(editable=False) 
     duracao = models.DurationField()
-    path_foto = models.CharField(max_length=2000)
+    #path_foto = models.CharField(max_length=2000)
+    #picture = CameraField(null=True)
+    photo = CameraField('CameraPictureField', format='jpeg', null=True, blank=True, upload_to='pictures')
     created_at = models.DateTimeField(editable=False)
     updated_at = models.DateTimeField(editable=False)
     is_active = models.BooleanField()

@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'daterange_filter',
     'import_export',
+    'debug_toolbar',
+    'webcam',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -58,7 +60,7 @@ ROOT_URLCONF = 'bbbcaminhao.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -123,4 +125,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = 'static'
+STATIC_ROOT = 'public'
+
+STATICFILES_DIRS = [
+   os.path.join('', 'static')
+]
+
+HERE = os.path.dirname(__file__)
+MEDIA_ROOT = os.path.join(HERE, 'media')
+MEDIA_URL = ''
