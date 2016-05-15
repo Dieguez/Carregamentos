@@ -79,10 +79,21 @@ WSGI_APPLICATION = 'bbbcaminhao.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'bbbcaminhao',
+        'USER': 'admin',
+        'PASSWORD': 'YGJREBYLD6kyZ7K',
+        'HOST': 'bbbcaminhao.cqvjoqgwjtcb.us-west-2.rds.amazonaws.com',
+        'PORT': '3306',
     }
 }
 
@@ -125,11 +136,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = 'public'
-
-STATICFILES_DIRS = [
-   os.path.join('', 'static')
-]
+STATIC_ROOT = 'static'
 
 HERE = os.path.dirname(__file__)
 MEDIA_ROOT = os.path.join(HERE, 'media')
