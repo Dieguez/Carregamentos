@@ -8,3 +8,4 @@ Pillow==3.2.0
 sqlparse==0.1.19
 tablib==0.11.2
 uuid==1.30
+awsebcli==3.7.6
