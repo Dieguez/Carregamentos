@@ -26,5 +26,5 @@ django-debug-toolbar==1.4
 sqlparse==0.1.19
 uuid==1.30
 Pillow==3.2.0
-file:django-webcam#egg=django-webcam
+-e git+https://github.com/saxix/django-webcam.git#egg=django-webcam
 
