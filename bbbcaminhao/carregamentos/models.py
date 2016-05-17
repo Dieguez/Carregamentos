@@ -3,6 +3,9 @@ import datetime
 from django.utils.encoding import python_2_unicode_compatible
 import webcam.admin
 from webcam.fields import CameraField
+import pytz
+from django.utils import timezone
+from django.utils import formats
 
 
 
@@ -53,7 +56,7 @@ class Carregamento(models.Model):
     caminhao = models.ForeignKey(Caminhao)
     frente = models.ForeignKey(Frente)
     data = models.DateTimeField(editable=False) 
-    duracao = models.DurationField()
+    duracao = models.DurationField(editable=False, default=datetime.timedelta())
     #path_foto = models.CharField(max_length=2000)
     #picture = CameraField(null=True)
     photo = CameraField('CameraPictureField', format='jpeg', null=True, blank=True, upload_to='pictures')
@@ -69,6 +72,16 @@ class Carregamento(models.Model):
             self.created_at = datetime.datetime.today()
             self.data = datetime.datetime.today()
         self.updated_at = datetime.datetime.today()
+
+        last_carregamento = Carregamento.objects.filter(caminhao=self.caminhao).order_by('-id')[0]
+
+        duration = datetime.datetime.utcnow().replace(tzinfo=pytz.UTC)-last_carregamento.data
+        print datetime.datetime.utcnow().replace(tzinfo=pytz.UTC)
+        print last_carregamento.data
+        print duration.days
+        if duration.days==0:
+            self.duracao = duration  
+
         super(Carregamento, self).save()  
     
 
