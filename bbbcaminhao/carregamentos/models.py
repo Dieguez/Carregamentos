@@ -20,13 +20,15 @@ class Caminhao(models.Model):
     motorista = models.CharField(max_length=500)
     created_at = models.DateTimeField(editable=False)
     updated_at = models.DateTimeField(editable=False)
-    is_active = models.BooleanField()
+    #is_active = models.BooleanField(editable=False, default=True)
+    codigo_barras = models.CharField(max_length=50, primary_key=True)
+    
     # ...
     def __str__(self):
         return self.placa+"-"+self.motorista
 
     def save(self):
-        if not self.id:
+        if not self.created_at:
             self.created_at = datetime.datetime.today()
         self.updated_at = datetime.datetime.today()
         super(Caminhao, self).save()
@@ -40,7 +42,7 @@ class Frente(models.Model):
     nome = models.CharField(max_length=2000)
     created_at = models.DateTimeField(editable=False)
     updated_at = models.DateTimeField(editable=False)
-    is_active = models.BooleanField()
+    #is_active = models.BooleanField()
     # ...
     def __str__(self):
         return self.nome 
@@ -53,8 +55,7 @@ class Frente(models.Model):
 
 @python_2_unicode_compatible
 class Carregamento(models.Model):
-    caminhao = models.ForeignKey(Caminhao)
-    frente = models.ForeignKey(Frente)
+    frente = models.ForeignKey(Frente, blank=True, null=True)
     data = models.DateTimeField(editable=False) 
     duracao = models.DurationField(editable=False, default=datetime.timedelta())
     #path_foto = models.CharField(max_length=2000)
@@ -62,7 +63,9 @@ class Carregamento(models.Model):
     photo = CameraField('CameraPictureField', format='jpeg', null=True, blank=True, upload_to='pictures')
     created_at = models.DateTimeField(editable=False)
     updated_at = models.DateTimeField(editable=False)
-    is_active = models.BooleanField()
+    #is_active = models.BooleanField()
+    id_caminhao = models.CharField(max_length=100)
+    caminhao = models.ForeignKey(Caminhao, blank=True, null=True)
     
     def __str__(self):
         return self.caminhao.motorista 
@@ -73,13 +76,18 @@ class Carregamento(models.Model):
             self.data = datetime.datetime.today()
         self.updated_at = datetime.datetime.today()
 
-        last_carregamento = Carregamento.objects.filter(caminhao=self.caminhao).order_by('-id')[0]
+        print self.id_caminhao
+        print '--------------'
+        self.caminhao = Caminhao.objects.get(pk=self.id_caminhao)
 
-        duration = datetime.datetime.utcnow().replace(tzinfo=pytz.UTC)-last_carregamento.data
-        print datetime.datetime.utcnow().replace(tzinfo=pytz.UTC)
-        print last_carregamento.data
-        print duration.days
-        if duration.days==0:
+        try:
+            last_carregamento = Carregamento.objects.filter(caminhao=self.caminhao).order_by('-id')[0]
+            duration = datetime.datetime.utcnow().replace(tzinfo=pytz.UTC)-last_carregamento.data
+        except Exception, e:
+            duration=0
+            
+
+        if duration and duration.days==0:
             self.duracao = duration  
 
         super(Carregamento, self).save()  

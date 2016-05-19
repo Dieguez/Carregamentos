@@ -10,12 +10,25 @@ from webcam.fields import CameraField
 
 FORMFIELD_FOR_DBFIELD_DEFAULTS[CameraField] = {'widget': widgets.CameraWidget}
 
+from django import forms
+
+
+class CarregamentoForm(forms.ModelForm):
+    id_caminhao = forms.CharField(widget=forms.PasswordInput)
+    class Meta:
+        model = Carregamento
+        fields = ['frente', 'photo', 'id_caminhao']
+        widgets = {
+            'id_caminhao': forms.PasswordInput(),
+        }
+    
 
 class CarregamentoAdmin(ImportExportModelAdmin):
 	list_display = ["caminhao", "frente", "data", "duracao"]
 	search_fields = ["caminhao__placa", "frente__nome", "data"]
 	list_filter = ["caminhao__placa", "frente__nome", ("data", DateRangeFilter)]
-
+	#raw_id_fields = ["caminhao"]
+	form = CarregamentoForm
 
 
 class CaminhaoAdmin(admin.ModelAdmin):
