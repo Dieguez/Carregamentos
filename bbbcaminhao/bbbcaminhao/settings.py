@@ -27,6 +27,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AWS_ACCESS_KEY_ID = 'AKIAIGVLHF6D62TKFFGQ'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'bbbcaminhao'
+
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
 
 # Application definition
 
@@ -42,6 +49,7 @@ INSTALLED_APPS = [
     'import_export',
     'debug_toolbar',
     'webcam',
+    'storages',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -138,6 +146,8 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = 'static'
 
-HERE = os.path.dirname(__file__)
-MEDIA_ROOT = os.path.join(HERE, 'media')
-MEDIA_URL = ''
+# HERE = os.path.dirname(__file__)
+# MEDIA_ROOT = os.path.join(HERE, 'media')
+# MEDIA_URL = ''
+
+

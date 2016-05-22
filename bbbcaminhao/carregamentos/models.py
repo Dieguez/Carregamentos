@@ -18,8 +18,8 @@ class Caminhao(models.Model):
     altura = models.DecimalField(max_digits=5, decimal_places=2)
     profundidade = models.DecimalField(max_digits=5, decimal_places=2)
     motorista = models.CharField(max_length=500)
-    created_at = models.DateTimeField(editable=False)
-    updated_at = models.DateTimeField(editable=False)
+    data_criacao = models.DateTimeField(editable=False)
+    data_alteracao = models.DateTimeField(editable=False)
     #is_active = models.BooleanField(editable=False, default=True)
     codigo_barras = models.CharField(max_length=50, primary_key=True)
     
@@ -28,9 +28,9 @@ class Caminhao(models.Model):
         return self.placa+"-"+self.motorista
 
     def save(self):
-        if not self.created_at:
-            self.created_at = datetime.datetime.today()
-        self.updated_at = datetime.datetime.today()
+        if not self.data_criacao:
+            self.data_criacao = datetime.datetime.today()
+        self.data_alteracao = datetime.datetime.today()
         super(Caminhao, self).save()
 
     class Meta(object):
@@ -40,8 +40,8 @@ class Caminhao(models.Model):
 @python_2_unicode_compatible
 class Frente(models.Model):
     nome = models.CharField(max_length=2000)
-    created_at = models.DateTimeField(editable=False)
-    updated_at = models.DateTimeField(editable=False)
+    data_criacao = models.DateTimeField(editable=False)
+    data_alteracao = models.DateTimeField(editable=False)
     #is_active = models.BooleanField()
     # ...
     def __str__(self):
@@ -49,20 +49,21 @@ class Frente(models.Model):
 
     def save(self):
         if not self.id:
-            self.created_at = datetime.datetime.today()
-        self.updated_at = datetime.datetime.today()
+            self.data_criacao = datetime.datetime.today()
+        self.data_alteracao = datetime.datetime.today()
         super(Frente, self).save()   
 
 @python_2_unicode_compatible
 class Carregamento(models.Model):
     frente = models.ForeignKey(Frente, blank=True, null=True)
     data = models.DateTimeField(editable=False) 
-    duracao = models.DurationField(editable=False, default=datetime.timedelta())
+    duracao = models.DurationField(editable=False, default=datetime)
     #path_foto = models.CharField(max_length=2000)
     #picture = CameraField(null=True)
-    photo = CameraField('CameraPictureField', format='jpeg', null=True, blank=True, upload_to='pictures')
-    created_at = models.DateTimeField(editable=False)
-    updated_at = models.DateTimeField(editable=False)
+    photo = CameraField('foto', format='jpeg', null=True, blank=True, upload_to='carregamentos-photo')
+    foto = models.FileField(upload_to='carregamentos-photo', blank=True, null=True)
+    data_criacao = models.DateTimeField(editable=False)
+    data_alteracao = models.DateTimeField(editable=False)
     #is_active = models.BooleanField()
     id_caminhao = models.CharField(max_length=100)
     caminhao = models.ForeignKey(Caminhao, blank=True, null=True)
@@ -72,13 +73,16 @@ class Carregamento(models.Model):
 
     def save(self):
         if not self.id:
-            self.created_at = datetime.datetime.today()
+            self.data_criacao = datetime.datetime.today()
             self.data = datetime.datetime.today()
-        self.updated_at = datetime.datetime.today()
+        self.data_alteracao = datetime.datetime.today()
 
-        print self.id_caminhao
-        print '--------------'
+        
         self.caminhao = Caminhao.objects.get(pk=self.id_caminhao)
+
+        # import pdb; pdb.set_trace()
+
+        self.foto = self.photo
 
         try:
             last_carregamento = Carregamento.objects.filter(caminhao=self.caminhao).order_by('-id')[0]
@@ -91,6 +95,11 @@ class Carregamento(models.Model):
             self.duracao = duration  
 
         super(Carregamento, self).save()  
+
+
+     
+
+        
     
 
 
