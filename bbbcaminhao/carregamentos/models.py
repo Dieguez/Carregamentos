@@ -11,7 +11,7 @@ from django.utils import formats
 
 # Create your models here.
 
-@python_2_unicode_compatible
+
 class Caminhao(models.Model):
     placa = models.CharField(max_length=7)
     largura = models.DecimalField(max_digits=5, decimal_places=2)
@@ -37,7 +37,7 @@ class Caminhao(models.Model):
         verbose_name = 'Caminhao'
         verbose_name_plural = 'Caminhoes'
 
-@python_2_unicode_compatible
+
 class Frente(models.Model):
     nome = models.CharField(max_length=2000)
     data_criacao = models.DateTimeField(editable=False)
@@ -53,11 +53,11 @@ class Frente(models.Model):
         self.data_alteracao = datetime.datetime.today()
         super(Frente, self).save()   
 
-@python_2_unicode_compatible
+
 class Carregamento(models.Model):
     frente = models.ForeignKey(Frente, blank=True, null=True)
     data = models.DateTimeField(editable=False) 
-    duracao = models.DurationField(editable=False, default=datetime)
+    duracao = models.DurationField(editable=False, default=datetime.timedelta())
     #path_foto = models.CharField(max_length=2000)
     #picture = CameraField(null=True)
     photo = CameraField('foto', format='jpeg', null=True, blank=True, upload_to='carregamentos-photo')

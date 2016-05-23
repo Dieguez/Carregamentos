@@ -27,9 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-AWS_ACCESS_KEY_ID = 'AKIAIGVLHF6D62TKFFGQ'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'bbbcaminhao'
+
 
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
@@ -87,23 +85,24 @@ WSGI_APPLICATION = 'bbbcaminhao.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ['db_database'],
+        'USER': os.environ['db_user'],
+        'PASSWORD': os.environ['db_password'],
+        'HOST': os.environ['CONNECTION_STRING'],
+        'PORT': '3306',
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'bbbcaminhao',
-#         'USER': 'admin',
-#         'PASSWORD': 'YGJREBYLD6kyZ7K',
-#         'HOST': 'bbbcaminhao.cqvjoqgwjtcb.us-west-2.rds.amazonaws.com',
-#         'PORT': '3306',
-#     }
-# }
 
 
 # Password validation
