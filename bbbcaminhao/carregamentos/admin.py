@@ -37,7 +37,7 @@ class CarregamentoResource(resources.ModelResource):
 
     class Meta:
         model = Carregamento
-        fields = ("caminhao__placa", "caminhao__motorista", "data", "duracao", "frente__nome")
+        fields = ("caminhao__placa", "caminhao__motorista", "data", "duracao", "frente__nome", )
         # widgets = {
         #         'data': {'format': '%d:%m:%Y %h:%M'},
         #         'duracao': {'format': '%h:%M'},
@@ -45,7 +45,7 @@ class CarregamentoResource(resources.ModelResource):
     
 
 class CarregamentoAdmin(ImportExportModelAdmin):
-	list_display = ["caminhao", "frente", "data", "data_alteracao", "duracao"]
+	list_display = ["caminhao", "frente", "data", "data_alteracao", "duracao", "admin_image"]
 
 	# def duracao_viagem(self, obj):
 	# 	total_seconds = int(obj.duracao.total_seconds())

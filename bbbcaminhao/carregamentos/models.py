@@ -60,8 +60,8 @@ class Carregamento(models.Model):
     duracao = models.DurationField(editable=False, default=datetime.timedelta())
     #path_foto = models.CharField(max_length=2000)
     #picture = CameraField(null=True)
-    photo = CameraField('foto', format='jpeg', null=True, blank=True, upload_to='carregamentos-photo')
-    foto = models.FileField(upload_to='carregamentos-photo', blank=True, null=True)
+    photo = CameraField('foto', format='jpeg', null=True, blank=True, upload_to='media')
+    foto = models.ImageField(upload_to='media', blank=True, null=True)
     data_criacao = models.DateTimeField(editable=False)
     data_alteracao = models.DateTimeField(editable=False)
     #is_active = models.BooleanField()
@@ -70,6 +70,10 @@ class Carregamento(models.Model):
     
     def __str__(self):
         return self.caminhao.motorista 
+
+    def admin_image(self):
+        return '<img src="../../../media/%s" width=80 height=80 />' % self.photo
+    admin_image.allow_tags = True
 
     def save(self):
         if not self.id:
