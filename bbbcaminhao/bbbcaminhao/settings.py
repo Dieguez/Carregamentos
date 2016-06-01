@@ -28,6 +28,11 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,6 +45,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'daterange_filter',
     'import_export',
+    # 'debug_toolbar',
+    'webcam',
+    'storages',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -58,7 +66,7 @@ ROOT_URLCONF = 'bbbcaminhao.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,11 +87,14 @@ WSGI_APPLICATION = 'bbbcaminhao.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ['db_database'],
+        'USER': os.environ['db_user'],
+        'PASSWORD': os.environ['db_password'],
+        'HOST': os.environ['CONNECTION_STRING'],
+        'PORT': '3306',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -124,3 +135,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = 'static'
+
+HERE = os.path.dirname(__file__)
+MEDIA_ROOT = os.path.join(HERE, 'media')
+MEDIA_URL = '/media/'
+
+
+
+
