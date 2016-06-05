@@ -78,8 +78,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bbbcaminhao.wsgi.application'
 
-
-
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 
@@ -91,24 +89,23 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
-DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.sqlite3',
-         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-     }
- }
-
-
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': os.environ['db_database'],
-#         'USER': os.environ['db_user'],
-#         'PASSWORD': os.environ['db_password'],
-#         'HOST': os.environ['CONNECTION_STRING'],
-#         'PORT': '3306',
-#     }
-# }
+#      'default': {
+#          'ENGINE': 'django.db.backends.sqlite3',
+#          'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#      }
+#  }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ['db_database'],
+        'USER': os.environ['db_user'],
+        'PASSWORD': os.environ['db_password'],
+        'HOST': os.environ['CONNECTION_STRING'],
+        'PORT': '3306',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -140,7 +137,9 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
+
+
 
 
 # Static files (CSS, JavaScript, Images)
@@ -153,6 +152,8 @@ STATIC_ROOT = 'static'
 HERE = os.path.dirname(__file__)
 MEDIA_ROOT = os.path.join(HERE, 'media')
 MEDIA_URL = '/media/'
+
+DATE_INPUT_FORMATS = ('%d-%m-%Y')
 
 
 
